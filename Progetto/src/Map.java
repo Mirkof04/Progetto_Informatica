@@ -1,3 +1,4 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
@@ -11,29 +12,26 @@ public class Map {
 		this.map = new int[row][col];
 		for(int i=0;i<map.length;i++) {
 			for(int j=0;j<map[0].length;j++) {
-				if(i%2 == 0) {
-					map[i][j] = 1;
-				}
+				map[i][j] = 1;
 			}
 		}
 		
 		this.brickWidth = 500/col;
-		this.brickHeight = 350/row;
+		this.brickHeight = 300/row;
 	}
 	
 	public void draw(Graphics2D g) {
 		for(int i=0;i<map.length;i++) {
 			for(int j=0;j<map[i].length;j++) {
-				g.setColor(Color.red);
-				g.fillRect(j*brickWidth, i*brickHeight, brickWidth, brickHeight);
-				/*if(map[i][j]%2 == 0) {
-					g.setColor(Color.red);
-					g.fillRect(j*brickWidth, i*brickHeight, brickWidth, brickHeight);
-				}
-				else {
-					g.setColor(Color.black);
-					g.fillRect(j*brickWidth, i*brickHeight, brickWidth, brickHeight);
-				}*/
+				
+				//Griglia
+				g.setColor(Color.blue);
+				g.fillRect(j*brickWidth+140, i*brickHeight+50, brickWidth, brickHeight);
+				
+				//Bordo griglia
+				g.setStroke(new BasicStroke(3));
+				g.setColor(Color.black);
+				g.drawRect(j * brickWidth+140, i * brickHeight+50, brickWidth, brickHeight);
 			}
 		}
 	}

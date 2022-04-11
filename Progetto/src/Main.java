@@ -8,7 +8,7 @@ public class Main {
 		Finestra gioco = new Finestra();
 		
 		finestra.setTitle("Brick Break");
-		finestra.setSize(500, 350);
+		finestra.setSize(800, 700);
 		finestra.setResizable(false);
 		finestra.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		finestra.add(gioco);
