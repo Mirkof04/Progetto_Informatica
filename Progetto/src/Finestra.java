@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -22,9 +23,11 @@ public class Finestra extends JPanel implements ActionListener, KeyListener {
 	private int ballYdir = -2;
 	
 	public Finestra() {
-		map = new Map(10, 10);
+		map = new Map(5, 5);
 		addKeyListener(this);
-		timer = new Timer(0, this);
+		setFocusable(true);
+		setFocusTraversalKeysEnabled(false);
+		timer = new Timer(10, this);
 		timer.start();
 	}
 	
@@ -36,7 +39,7 @@ public class Finestra extends JPanel implements ActionListener, KeyListener {
 		
 		//Paddle
 		g.setColor(Color.red);
-		g.fillRect(paddleX, 650, 100, 10);
+		g.fillRect(paddleX, 650, 100, 12);
 		
 		//Ball
 		g.setColor(Color.yellow);
@@ -45,12 +48,46 @@ public class Finestra extends JPanel implements ActionListener, KeyListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+		if(play) {
+			ballX += ballXdir;
+			ballY += ballYdir;
+			
+			if(new Rectangle(paddleX, 650, 100, 12).intersects(new Rectangle(ballX, ballY, 20, 20))) {
+				ballYdir = -ballYdir;
+			}
+			
+			if(ballX < 0) {
+				ballXdir = -ballXdir;
+			}
+			if(ballX > 780) {
+				ballXdir = -ballXdir;
+			}
+			if(ballY < 0) {
+				ballYdir = -ballYdir;
+			}
+			repaint();
+		}
 	}
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			if(paddleX > 670) {
+				paddleX = 685;
+			}
+			else {
+				moveRight();
+			}
+		}
 		
+		if(e.getKeyCode() == KeyEvent.VK_LEFT){
+			if(paddleX < 10) {
+				paddleX = 1;
+			}
+			else {
+				moveLeft();
+			}
+		}
 	}
 	
 	@Override
@@ -58,4 +95,14 @@ public class Finestra extends JPanel implements ActionListener, KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {}
+
+	public void moveRight() {
+		play = true;
+		paddleX += 20;
+	}
+	
+	public void moveLeft() {
+		play = true;
+		paddleX -= 20;
+	}
 }
