@@ -1,4 +1,6 @@
+
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -19,8 +21,8 @@ public class Finestra extends JPanel implements ActionListener, KeyListener {
 	private int paddleX = 350;
 	private int ballX = 390;
 	private int ballY = 630;
-	private int ballXdir = 1;
-	private int ballYdir = -2;
+	private int ballXdir = 2;
+	private int ballYdir = -3;
 	private int score = 0;
 	
 	public Finestra() {
@@ -34,16 +36,22 @@ public class Finestra extends JPanel implements ActionListener, KeyListener {
 	
 	public void paint(Graphics g) {
 		
+		//Sfondo
 		g.setColor(Color.black);
 		g.fillRect(0, 0, 800, 700);
 		
+		//Punteggio
+		g.setColor(Color.white);
+		g.setFont(new Font("Arial", Font.BOLD, 30));
+		g.drawString("PUNTEGGIO: "+score, 300, 30);
+		
 		map.draw((Graphics2D) g);
 		
-		//Paddle
+		//Giocatore
 		g.setColor(Color.red);
 		g.fillRect(paddleX, 650, 100, 12);
 		
-		//Ball
+		//Palla
 		g.setColor(Color.yellow);
 		g.fillOval(ballX, ballY, 20, 20);
 		
@@ -53,18 +61,21 @@ public class Finestra extends JPanel implements ActionListener, KeyListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		if(ballY > 700) {
+		//Palla mancata
+		if(ballY > 680) {
 			play = false;
 			System.out.println("PERSO");
 		}
 		
 		if(play) {
 			
+			//Controllo scontro palla con giocatore
 			if(new Rectangle(paddleX, 650, 100, 12).intersects(new Rectangle(ballX, ballY, 20, 20))) {
 				ballYdir = -ballYdir;
 			}
 			
-			for(int i=0;i<map.map.length;i++) {
+			//Controllo scontro con cubetti
+			A: for(int i=0;i<map.map.length;i++) {
 				for(int j=0;j<map.map[0].length;j++) {
 					
 					if(map.map[i][j] == 1) {
@@ -84,6 +95,7 @@ public class Finestra extends JPanel implements ActionListener, KeyListener {
 							System.out.println(score);
 							map.setBrick(i, j, 0);
 							
+							//Scontro con lati cubetti
 							if(ballX+19 <= brick.x || ballX+2 >= brick.x+brick.width) {
 								ballXdir = -ballXdir;
 							}
@@ -91,15 +103,17 @@ public class Finestra extends JPanel implements ActionListener, KeyListener {
 								ballYdir = -ballYdir;
 							}
 							
-							break;
+							break A;
 						}
 					}
 				}
 			}
 			
+			//Incremento posizione palla
 			ballX += ballXdir;
 			ballY += ballYdir;
 			
+			//Rimbalzi laterali palla
 			if(ballX < 0) {
 				ballXdir = -ballXdir;
 			}
@@ -113,8 +127,10 @@ public class Finestra extends JPanel implements ActionListener, KeyListener {
 		}
 	}
 	
+	//Pressione tasti
 	@Override
 	public void keyPressed(KeyEvent e) {
+		//Gestione pressione freccia destra
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			if(paddleX > 670) {
 				paddleX = 685;
@@ -123,7 +139,8 @@ public class Finestra extends JPanel implements ActionListener, KeyListener {
 				moveRight();
 			}
 		}
-		
+	
+		//Gestione pressione freccia sinistra
 		if(e.getKeyCode() == KeyEvent.VK_LEFT){
 			if(paddleX < 10) {
 				paddleX = 1;
@@ -140,11 +157,13 @@ public class Finestra extends JPanel implements ActionListener, KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {}
 
+	//Movimento destra giocatore
 	public void moveRight() {
 		play = true;
 		paddleX += 20;
 	}
 	
+	//Movimento sinistra giocatore
 	public void moveLeft() {
 		play = true;
 		paddleX -= 20;
