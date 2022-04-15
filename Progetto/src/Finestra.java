@@ -18,15 +18,17 @@ public class Finestra extends JPanel implements ActionListener, KeyListener {
 	private Map map;
 	
 	private boolean play = false;
+	private int score = 0;
+	private int nBricks = 30;
+	
 	private int paddleX = 350;
 	private int ballX = 390;
 	private int ballY = 630;
-	private int ballXdir = 2;
-	private int ballYdir = -3;
-	private int score = 0;
+	private int ballXdir = 1;
+	private int ballYdir = -2;
 	
 	public Finestra() {
-		map = new Map(5, 5);
+		map = new Map(5, 6);
 		addKeyListener(this);
 		setFocusTraversalKeysEnabled(false);
 		setFocusable(true);
@@ -55,17 +57,29 @@ public class Finestra extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.yellow);
 		g.fillOval(ballX, ballY, 20, 20);
 		
+		//Controllo vittoria
+		if(nBricks == 0) {
+			play = false;
+			g.setColor(Color.red);
+			g.setFont(new Font("Arial", Font.BOLD, 30));
+			g.drawString("VITTORIA", 350, 300);
+			System.out.println("VITTORIA");
+		}
+		
+		//Palla mancata
+		if(ballY > 680) {
+			play = false;
+			g.setColor(Color.red);
+			g.setFont(new Font("Arial", Font.BOLD, 30));
+			g.drawString("SCONFITTA", 350, 300);
+			System.out.println("SCONFITTA");
+		}
+		
 		g.dispose();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
-		//Palla mancata
-		if(ballY > 680) {
-			play = false;
-			System.out.println("PERSO");
-		}
 		
 		if(play) {
 			
@@ -89,14 +103,15 @@ public class Finestra extends JPanel implements ActionListener, KeyListener {
 						//Creazione rettangoli palla e cubetti
 						Rectangle brick = new Rectangle(brickX, brickY, brickWidth, brickHeight);
 						Rectangle ball = new Rectangle(ballX, ballY, 20, 20);
-						 
+						
 						if(brick.intersects(ball)) {
 							score += 1;
+							nBricks--;
 							System.out.println(score);
 							map.setBrick(i, j, 0);
 							
 							//Scontro con lati cubetti
-							if(ballX+19 <= brick.x || ballX+2 >= brick.x+brick.width) {
+							if(ballX+19 <= brick.x || ballX+1 >= brick.x+brick.width) {
 								ballXdir = -ballXdir;
 							}
 							else {
