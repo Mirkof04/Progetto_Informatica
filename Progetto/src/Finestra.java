@@ -1,4 +1,3 @@
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -14,18 +13,27 @@ import javax.swing.Timer;
 
 public class Finestra extends JPanel implements ActionListener, KeyListener {
 
+	private static final int ROW = 5;
+	private static final int COL = 6;
+	private static final int BALL = 20;
+	
 	private Timer timer;
 	private Map map;
-	private static final int ROW = 5;
-	private static final int COL = 5;
+	
 	private boolean play = false;
+	private int score = 0;
+	private int nBricks = 30;
+	
 	private int paddleX = 350;
 	private int ballX = 390;
 	private int ballY = 630;
-	private int ballXdir = 2;
-	private int ballYdir = -3;
-	private int score = 0;
-
+	
+	
+	//Generazione direzione iniziale
+	private double gradi = Math.floor(Math.random()*40 + 30);
+	private int ballXdir = -(int) dirX(gradi);
+	private int ballYdir = (int) dirY(gradi);
+	
 	public Finestra() {
 		map = new Map(COL, ROW);
 		addKeyListener(this);
@@ -36,7 +44,6 @@ public class Finestra extends JPanel implements ActionListener, KeyListener {
 	}
 
 	public void paint(Graphics g) {
-
 		// Sfondo
 		g.setColor(Color.black);
 		g.fillRect(0, 0, 800, 700);
@@ -54,10 +61,10 @@ public class Finestra extends JPanel implements ActionListener, KeyListener {
 
 		// Palla
 		g.setColor(Color.yellow);
-		g.fillOval(ballX, ballY, 20, 20);
+		g.fillOval((int)ballX, (int)ballY, BALL, BALL);
 
 		// Controllo vincita
-		if (score == ROW * COL) {
+		if (nBricks == 0) {
 			play = false;
 			g.setColor(Color.red);
 			g.setFont(new Font("Calibri", Font.BOLD, 35));
@@ -85,7 +92,7 @@ public class Finestra extends JPanel implements ActionListener, KeyListener {
 		if (play) {
 
 			// Controllo scontro palla con giocatore
-			if (new Rectangle(paddleX, 650, 100, 12).intersects(new Rectangle(ballX, ballY, 20, 20))) {
+			if (new Rectangle(paddleX, 650, 100, 12).intersects(new Rectangle((int)ballX, (int)ballY, BALL, BALL))) {
 				ballYdir = -ballYdir;
 			}
 
@@ -103,14 +110,15 @@ public class Finestra extends JPanel implements ActionListener, KeyListener {
 
 						// Creazione rettangoli palla e cubetti
 						Rectangle brick = new Rectangle(brickX, brickY, brickWidth, brickHeight);
-						Rectangle ball = new Rectangle(ballX, ballY, 20, 20);
-
-						if (brick.intersects(ball)) {
-							score += 1;
+						Rectangle ball = new Rectangle((int)ballX, (int)ballY, BALL, BALL);
+						
+						if(brick.intersects(ball)) {
+							score += 5;
+							nBricks--;
 							map.setBrick(i, j, 0);
-
-							// Scontro con lati cubetti
-							if (ballX + 19 <= brick.x || ballX + 2 >= brick.x + brick.width) {
+							
+							//Scontro con lati cubetti
+							if(ballX+(BALL-Math.abs(ballXdir)) <= brick.x || ballX+Math.abs(ballXdir) >= brick.x+brick.width) {
 								ballXdir = -ballXdir;
 							} else {
 								ballYdir = -ballYdir;
@@ -177,13 +185,13 @@ public class Finestra extends JPanel implements ActionListener, KeyListener {
 	// Movimento destra giocatore
 	public void moveRight() {
 		play = true;
-		paddleX += 20;
+		paddleX += BALL;
 	}
 
 	// Movimento sinistra giocatore
 	public void moveLeft() {
 		play = true;
-		paddleX -= 20;
+		paddleX -= BALL;
 	}
 
 	public void reset() {
@@ -191,10 +199,24 @@ public class Finestra extends JPanel implements ActionListener, KeyListener {
 		paddleX = 350;
 		ballX = 390;
 		ballY = 630;
-		ballXdir = 2;
-		ballYdir = -3;
+		gradi = Math.floor(Math.random()*40 + 30);
+		ballXdir = -(int) dirX(gradi);
+		ballYdir = (int) dirY(gradi);
 		score = 0;
 		timer.start();
-
+	}
+	
+	public double dirX(double gradi) {
+		double radianti = Math.toRadians(gradi);
+		double coseno = - Math.cos(radianti)*5;
+		if((Math.random()*1) < 0.5) {
+			coseno = -coseno;
+		}
+		return coseno;
+	}
+	
+	public double dirY(double gradi) {
+		double radianti = Math.toRadians(gradi);
+		return Math.sin(radianti)*5;
 	}
 }
