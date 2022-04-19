@@ -43,7 +43,7 @@ public class Finestra extends JPanel implements ActionListener, KeyListener {
 
 		// Punteggio
 		g.setColor(Color.white);
-		g.setFont(new Font("Arial", Font.BOLD, 30));
+		g.setFont(new Font("Calibri", Font.BOLD, 30));
 		g.drawString("PUNTEGGIO: " + score, 300, 30);
 
 		map.draw((Graphics2D) g);
@@ -60,10 +60,10 @@ public class Finestra extends JPanel implements ActionListener, KeyListener {
 		if (score == ROW * COL) {
 			play = false;
 			g.setColor(Color.red);
-			g.setFont(new Font("Verdana", Font.BOLD, 35));
+			g.setFont(new Font("Calibri", Font.BOLD, 35));
 			g.drawString("Hai vinto!", 230, 300);
-			g.setFont(new Font("Verdana", Font.BOLD, 30));
-			g.drawString("Premi ENTER per giocare", 230, 350);
+			g.setFont(new Font("Calibri", Font.BOLD, 30));
+			g.drawString("Premi INVIO per giocare", 230, 350);
 			timer.stop();
 		}
 
@@ -71,10 +71,10 @@ public class Finestra extends JPanel implements ActionListener, KeyListener {
 		if (ballY > 680) {
 			play = false;
 			g.setColor(Color.red);
-			g.setFont(new Font("Verdana", Font.BOLD, 35));
+			g.setFont(new Font("Calibri", Font.BOLD, 35));
 			g.drawString("Hai perso!", 230, 300);
-			g.setFont(new Font("Verdana", Font.BOLD, 30));
-			g.drawString("Premi ENTER per giocare", 230, 350);
+			g.setFont(new Font("Calibri", Font.BOLD, 30));
+			g.drawString("Premi INVIO per giocare", 230, 350);
 			timer.stop();
 		}
 		g.dispose();
