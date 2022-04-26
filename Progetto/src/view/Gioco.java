@@ -25,21 +25,21 @@ public class Gioco extends JPanel {
 		// Punteggio
 		g.setColor(Color.white);
 		g.setFont(new Font("Calibri", Font.BOLD, 30));
-		g.drawString("PUNTEGGIO: " + map.score, 300, 30);
+		g.drawString("PUNTEGGIO: " + map.getScore(), 300, 30);
 
 		map.draw((Graphics2D) g);
 		
 		// Giocatore
 		g.setColor(Color.red);
-		g.fillRect(map.paddleX, 650, 100, 12);
+		g.fillRect(map.getPaddleX(), 650, 100, 12);
 
 		// Palla
 		g.setColor(Color.yellow);
-		g.fillOval((int)map.ballX, (int)map.ballY, map.BALL, map.BALL);
+		g.fillOval((int)map.getBallX(), (int)map.getBallY(), map.getBall(), map.getBall());
 		
 		// Controllo vincita
-		if (map.nBricks == 0) {
-			map.play = false;
+		if (map.getnBricks() == 0) {
+			map.setPlay(false);
 			g.setColor(Color.red);
 			g.setFont(new Font("Calibri", Font.BOLD, 35));
 			g.drawString("Hai vinto!", 310, 300);
@@ -48,8 +48,8 @@ public class Gioco extends JPanel {
 		}
 
 		// Controllo perdita
-		if (map.ballY > 680) {
-			map.play = false;
+		if (map.getBallY() > 680) {
+			map.setPlay(false);;
 			g.setColor(Color.red);
 			g.setFont(new Font("Calibri", Font.BOLD, 35));
 			g.drawString("Hai perso!", 310, 300);

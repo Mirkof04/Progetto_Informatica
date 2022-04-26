@@ -5,6 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.Timer;
 
@@ -30,44 +36,45 @@ public class Gameplay implements ActionListener, KeyListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		if(map.nBricks==0 || map.ballY>680) {
+		if(map.getnBricks()==0 || map.getBallY()>680) {
+			updateRecord();
 			timer.stop();
 		}
 		
-		if (map.play) {
+		if (map.isPlay()) {
 			// Controllo scontro palla con giocatore
-			if (new Rectangle(map.paddleX, 650, 100, 12).intersects(new Rectangle((int)map.ballX, (int)map.ballY, map.BALL, map.BALL))) {
-				map.ballYdir = -map.ballYdir;
+			if (new Rectangle(map.getPaddleX(), 650, 100, 12).intersects(new Rectangle((int)map.getBallX(), (int)map.getBallY(), map.getBall(), map.getBall()))) {
+				map.setBallYdir(-map.getBallYdir());
 			}
 
 			// Controllo scontro con cubetti
-			A: for (int i = 0; i < map.map.length; i++) {
-				for (int j = 0; j < map.map[0].length; j++) {
+			A: for (int i = 0; i < map.getMap().length; i++) {
+				for (int j = 0; j < map.getMap()[0].length; j++) {
 
-					if (map.map[i][j] == 1) {
+					if (map.getMap()[i][j] == 1) {
 
 						// Coordinate palla e cubetti
-						int brickWidth = map.brickWidth;
-						int brickHeight = map.brickHeight;
+						int brickWidth = map.getBrickWidth();
+						int brickHeight = map.getBrickHeight();
 						int brickX = j * brickWidth + 140;
 						int brickY = i * brickHeight + 50;
 
 						// Creazione rettangoli palla e cubetti
 						Rectangle brick = new Rectangle(brickX, brickY, brickWidth, brickHeight);
-						Rectangle ball = new Rectangle((int)map.ballX, (int)map.ballY, map.BALL, map.BALL);
+						Rectangle ball = new Rectangle((int)map.getBallX(), (int)map.getBallY(), map.getBall(), map.getBall());
 						
 						if(brick.intersects(ball)) {
-							map.score += 5;
-							map.nBricks--;
+							
+							map.setScore(map.getScore() + 5);
+							map.setnBricks(map.getnBricks() - 1);
 							map.setBrick(i, j, 0);
 							
 							//Scontro con lati cubetti
-							if(map.ballX+(map.BALL-Math.abs(map.ballXdir)) <= brick.x || map.ballX+Math.abs(map.ballXdir) >= brick.x+brick.width) {
-								map.ballXdir = -map.ballXdir;
+							if(map.getBallX()+(map.getBall()-Math.abs(map.getBallXdir())) <= brick.x || map.getBallX()+Math.abs(map.getBallXdir()) >= brick.x+brick.width) {
+								map.setBallXdir(-map.getBallXdir());
 							} else {
-								map.ballYdir = -map.ballYdir;
+								map.setBallYdir(-map.getBallYdir());
 							}
-							
 							break A;
 						}
 					}
@@ -75,32 +82,32 @@ public class Gameplay implements ActionListener, KeyListener {
 			}
 
 			// Incremento posizione palla
-			map.ballX += map.ballXdir;
-			map.ballY += map.ballYdir;
-
+			map.setBallX(map.getBallX() + map.getBallXdir());
+			map.setBallY(map.getBallY() + map.getBallYdir());
+			
 			// Rimbalzi laterali palla
-			if (map.ballX < 0) {
-				map.ballXdir = -map.ballXdir;
+			if (map.getBallX() < 0) {
+				map.setBallXdir(-map.getBallXdir());
 			}
-			if (map.ballX > 765) {
-				map.ballXdir = -map.ballXdir;
+			if (map.getBallX() > 765) {
+				map.setBallXdir(-map.getBallXdir());
 			}
-			if (map.ballY < 0) {
-				map.ballYdir = -map.ballYdir;
+			if (map.getBallY() < 0) {
+				map.setBallYdir(-map.getBallYdir());
 			}
 			
 			//Spostamento giocatore
 			if(rightPressed) {
-				if (map.paddleX > 670) {
-					map.paddleX = 685;
+				if (map.getPaddleX() > 670) {
+					map.setPaddleX(685);
 				}
 				else {
 					moveRight();
 				}
 			}
 			if(leftPressed) {
-				if (map.paddleX < 10) {
-					map.paddleX = 1;
+				if (map.getPaddleX() < 10) {
+					map.setPaddleX(1);
 				}
 				else {
 					moveLeft();
@@ -114,9 +121,9 @@ public class Gameplay implements ActionListener, KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		
-		if (!map.play && e.getKeyCode() == KeyEvent.VK_ENTER) {
+		if (!map.isPlay() && e.getKeyCode() == KeyEvent.VK_ENTER) {
 			reset();
-			map.play = true;
+			map.setPlay(true);
 		}
 		
 		// Gestione pressione freccia destra
@@ -151,24 +158,24 @@ public class Gameplay implements ActionListener, KeyListener {
 
 	// Movimento destra giocatore
 	public void moveRight() {
-		map.paddleX += 5;
+		map.setPaddleX(map.getPaddleX() + 5);
 	}
 
 	// Movimento sinistra giocatore
 	public void moveLeft() {
-		map.paddleX -= 5;
+		map.setPaddleX(map.getPaddleX() - 5);
 	}
 
 	public void reset() {
 		map.reset();
-		map.paddleX = 350;
-		map.ballX = 390;
-		map.ballY = 630;
-		map.gradi = Math.floor(Math.random()*40 + 30);
-		map.ballXdir = -(int) dirX(map.gradi);
-		map.ballYdir = (int) dirY(map.gradi);
-		map.score = 0;
-		map.nBricks = 30;
+		map.setPaddleX(350);
+		map.setBallX(390);
+		map.setBallY(630);
+		map.setGradi(Math.floor(Math.random()*40 + 30));
+		map.setBallXdir(-(int) dirX(map.getGradi()));
+		map.setBallYdir((int) dirY(map.getGradi()));
+		map.setScore(0);
+		map.setnBricks(30);
 		timer.start();
 	}
 	
@@ -184,6 +191,64 @@ public class Gameplay implements ActionListener, KeyListener {
 	public double dirY(double gradi) {
 		double radianti = Math.toRadians(gradi);
 		return Math.sin(radianti)*5;
+	}
+	
+	public void updateRecord() {
+		try {
+			String path = "record.txt";
+			File file = new File(path);
+			
+			if(file.exists()) {
+				System.out.println("FILE "+path+" NON ESISTE");
+				FileReader fr = new FileReader(file);
+				BufferedReader br = new BufferedReader(fr);
+				String best = br.readLine();
+				br.close();
+				if(bestScore(best) == 1) {
+					System.out.println("new record");
+					FileWriter fw = new FileWriter(file);
+					BufferedWriter bw = new BufferedWriter(fw);
+					bw.write(map.getScore()+"");
+					bw.flush();
+					bw.close();
+				}
+				else if(bestScore(best) == -1) {
+					System.out.println("no record");
+				}
+				else {
+					System.out.println("record eguaglieto");
+				}
+			}
+			else if(file.createNewFile()){
+				System.out.println("FILE "+path+" CREATO");
+				FileWriter fw = new FileWriter(file);
+				BufferedWriter bw = new BufferedWriter(fw);
+				bw.write(map.getScore()+"");
+				bw.flush();
+				bw.close();
+			}
+			else {
+				System.out.println("FILE "+path+" NON PUO ESSERE CREATO");
+			}
+			
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
+	
+	public int bestScore(String score) {
+		int points = Integer.parseInt(score);
+		System.out.println("punti migliori: "+points);
+		System.out.println("punti attuali: "+map.getScore());
+		if(map.getScore() < points) {
+			return -1;
+		}
+		else if(map.getScore() > points) {
+			return 1;
+		}
+		else {
+			return 0;
+		}
 	}
 
 	public Map getMap() {

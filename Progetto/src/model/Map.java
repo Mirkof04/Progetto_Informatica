@@ -6,26 +6,26 @@ import java.awt.Graphics2D;
 
 public class Map {
 	
-	public static final int ROW = 5;
-	public static final int COL = 6;
-	public static final int BALL = 20;
+	private static final int ROW = 5;
+	private static final int COL = 6;
+	private static final int BALL = 20;
 	
-	public int map[][];
-	public int brickWidth;
-	public int brickHeight;
+	private int map[][];
+	private int brickWidth;
+	private int brickHeight;
 	
-	public int paddleX = 350;
-	public int ballX = 390;
-	public int ballY = 630;
+	private int paddleX = 350;
+	private int ballX = 390;
+	private int ballY = 630;
 	
-	public int score = 0;
-	public int nBricks = 30;
-	public boolean play = false;
+	private int score = 0;
+	private int nBricks = 30;
+	private boolean play = false;
 	
 	//Generazione direzione iniziale
-	public double gradi = Math.floor(Math.random()*40 + 30);
-	public int ballXdir = -(int) dirX(gradi);
-	public int ballYdir = (int) dirY(gradi);
+	private double gradi = Math.floor(Math.random()*40 + 30);
+	private int ballXdir = -(int) dirX(gradi);
+	private int ballYdir = (int) dirY(gradi);
 	
 	public Map() {
 		this.map = new int[ROW][COL];
@@ -84,46 +84,6 @@ public class Map {
 		return Math.sin(radianti)*5;
 	}
 
-	public int getPaddleX() {
-		return paddleX;
-	}
-
-	public void setPaddleX(int paddleX) {
-		this.paddleX = paddleX;
-	}
-
-	public int getBallX() {
-		return ballX;
-	}
-
-	public void setBallX(int ballX) {
-		this.ballX = ballX;
-	}
-
-	public int getBallY() {
-		return ballY;
-	}
-
-	public void setBallY(int ballY) {
-		this.ballY = ballY;
-	}
-
-	public int getBallXdir() {
-		return ballXdir;
-	}
-
-	public void setBallXdir(int ballXdir) {
-		this.ballXdir = ballXdir;
-	}
-
-	public int getBallYdir() {
-		return ballYdir;
-	}
-
-	public void setBallYdir(int ballYdir) {
-		this.ballYdir = ballYdir;
-	}
-
 	public int getBrickWidth() {
 		return brickWidth;
 	}
@@ -132,15 +92,91 @@ public class Map {
 		return brickHeight;
 	}
 
+	public int getPaddleX() {
+		return paddleX;
+	}
+
+	public int getBallX() {
+		return ballX;
+	}
+
+	public int getBallY() {
+		return ballY;
+	}
+
 	public int getScore() {
 		return score;
+	}
+
+	public int getnBricks() {
+		return nBricks;
+	}
+
+	public double getGradi() {
+		return gradi;
+	}
+
+	public int getBallXdir() {
+		return ballXdir;
+	}
+
+	public int getBallYdir() {
+		return ballYdir;
+	}
+
+	public static int getRow() {
+		return ROW;
+	}
+
+	public static int getCol() {
+		return COL;
+	}
+
+	public static int getBall() {
+		return BALL;
+	}
+
+	public boolean isPlay() {
+		return play;
+	}
+
+	public void setPlay(boolean play) {
+		this.play = play;
+	}
+
+	public void setBallXdir(int ballXdir) {
+		this.ballXdir = ballXdir;
+	}
+
+	public void setBallYdir(int ballYdir) {
+		this.ballYdir = ballYdir;
+	}
+
+	public int[][] getMap() {
+		return map;
 	}
 
 	public void setScore(int score) {
 		this.score = score;
 	}
 
-	public int getnBricks() {
-		return nBricks;
+	public void setnBricks(int nBricks) {
+		this.nBricks = nBricks;
+	}
+
+	public void setBallX(int ballX) {
+		this.ballX = ballX;
+	}
+
+	public void setBallY(int ballY) {
+		this.ballY = ballY;
+	}
+
+	public void setPaddleX(int paddleX) {
+		this.paddleX = paddleX;
+	}
+
+	public void setGradi(double gradi) {
+		this.gradi = gradi;
 	}
 }
