@@ -11,7 +11,7 @@ public class Finestra extends JFrame {
 	public Finestra(Map map) {
 		game = new Gioco(map);
 		setTitle("Brick Breaker");
-		setSize(800, 700);
+		setSize(814, 700);
 		setResizable(false);
 		setFocusTraversalKeysEnabled(false);
 		setFocusable(true);

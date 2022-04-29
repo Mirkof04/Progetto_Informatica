@@ -23,9 +23,9 @@ public class Map {
 	private boolean play = false;
 	
 	//Generazione direzione iniziale
-	private double gradi = Math.floor(Math.random()*40 + 30);
-	private int ballXdir = -(int) dirX(gradi);
-	private int ballYdir = (int) dirY(gradi);
+	private double degrees = Math.floor(Math.random()*40 + 30);
+	private int ballXdir = -(int) dirX(degrees);
+	private int ballYdir = (int) dirY(degrees);
 	
 	public Map() {
 		this.map = new int[ROW][COL];
@@ -46,13 +46,13 @@ public class Map {
 			
 				if(map[i][j] == 1) {
 					//Griglia
-					g.setColor(Color.blue);
-					g.fillRect(j*brickWidth+140, i*brickHeight+50, brickWidth, brickHeight);
+					g.setColor(new Color(166, 166, 166));
+					g.fillRect(j*brickWidth+150, i*brickHeight+70, brickWidth, brickHeight);
 					
 					//Bordo griglia
 					g.setStroke(new BasicStroke(3));
-					g.setColor(Color.black);
-					g.drawRect(j * brickWidth+140, i * brickHeight+50, brickWidth, brickHeight);
+					g.setColor(new Color(121, 121, 121));
+					g.drawRect(j * brickWidth+150, i * brickHeight+70, brickWidth, brickHeight);
 				}
 			}
 		}
@@ -112,8 +112,8 @@ public class Map {
 		return nBricks;
 	}
 
-	public double getGradi() {
-		return gradi;
+	public double getDegrees() {
+		return degrees;
 	}
 
 	public int getBallXdir() {
@@ -176,7 +176,7 @@ public class Map {
 		this.paddleX = paddleX;
 	}
 
-	public void setGradi(double gradi) {
-		this.gradi = gradi;
+	public void setDegrees(double degrees) {
+		this.degrees = degrees;
 	}
 }
