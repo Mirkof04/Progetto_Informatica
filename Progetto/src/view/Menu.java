@@ -1,16 +1,24 @@
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class Menu extends JFrame{
 
@@ -21,17 +29,32 @@ public class Menu extends JFrame{
 	private JLabel lblNickname;
 	private JButton btnRanking;
 	private JButton btnRecord;
-
+	
 	public Menu() {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 480, 300);
+		setBounds(100, 100, 495, 300);
 		setResizable(false);
-		contentPane = new JPanel();
-		contentPane.setBackground(Color.BLACK);
+		
+		try {
+			Image backgroundImage = ImageIO.read(new File("img/backgroundMenu.png"));
+			contentPane = new JPanel(){
+		        public void paintComponent(Graphics g) {
+		            g.drawImage(backgroundImage, 0, 0, null);
+		        }
+		    };
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPane);
 		contentPane.setLayout(null);
 		
+		ImageIcon appIcon = new ImageIcon("img/appIcon.png");
+		setIconImage(appIcon.getImage());
+		
+		//ImageIcon startIcon = new ImageIcon(img/);
 		btnNewGame = new JButton("New Game");
 		btnNewGame.setFont(new Font("Calibri", Font.BOLD, 13));
 		btnNewGame.setBounds(268, 93, 97, 35);
@@ -68,6 +91,17 @@ public class Menu extends JFrame{
 		});
 		btnRecord.setBounds(175, 197, 105, 35);
 		contentPane.add(btnRecord);
+	}
+	
+	public void paintComponent(Graphics g) {
+		Image backgroundImage = null;
+		try {
+			backgroundImage = ImageIO.read(new File("img/backgroundMenu.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		super.paintComponents(g);
+		g.drawImage(backgroundImage, 0, 0, this);
 	}
 
 	public JButton getBtnNewGame() {

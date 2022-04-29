@@ -1,5 +1,6 @@
 package view;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import model.Map;
@@ -16,6 +17,10 @@ public class Finestra extends JFrame {
 		setFocusTraversalKeysEnabled(false);
 		setFocusable(true);
 		add(game);
+		
+		ImageIcon appIcon = new ImageIcon("img/appIcon.png");
+		setIconImage(appIcon.getImage());
+		
 		setVisible(true);
 	}
 }

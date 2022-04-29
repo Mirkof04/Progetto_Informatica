@@ -33,7 +33,7 @@ public class Gameplay implements ActionListener, KeyListener {
 		gioco = new Finestra(map);
 		gioco.addKeyListener(this);
 		this.nickName = nickname;
-		timer = new Timer(8, this);
+		timer = new Timer(10, this);
 		timer.start();
 	}
 
@@ -48,7 +48,15 @@ public class Gameplay implements ActionListener, KeyListener {
 		
 		if (map.isPlay()) {
 			// Controllo scontro palla con giocatore
-			if (new Rectangle(map.getPaddleX(), 650, 100, 12).intersects(new Rectangle((int)map.getBallX(), (int)map.getBallY(), map.getBall(), map.getBall()))) {
+			if (new Rectangle(map.getPaddleX(), 650, 30, 12).intersects(new Rectangle(map.getBallX(), map.getBallY(), map.getBall(), map.getBall()))) {
+				map.setBallYdir(-map.getBallYdir());
+				map.setBallXdir(map.getBallXdir() - 2);
+			}
+			else if(new Rectangle(map.getBallX(), map.getBallY(), 20, 20).intersects(new Rectangle(map.getPaddleX() + 70, 650, 30, 12))){
+				map.setBallYdir(-map.getBallYdir());
+				map.setBallXdir(map.getBallXdir() + 1);
+			}
+			else if(new Rectangle(map.getBallX(), map.getBallY(), 20, 20).intersects(new Rectangle(map.getPaddleX() + 30, 650, 40, 12))){
 				map.setBallYdir(-map.getBallYdir());
 			}
 
@@ -214,7 +222,7 @@ public class Gameplay implements ActionListener, KeyListener {
 					System.out.println("new record");
 					FileWriter fw = new FileWriter(file);
 					BufferedWriter bw = new BufferedWriter(fw);
-					bw.write(nickName+"\n");
+					bw.write(nickName+"\n"); 
 					bw.write(map.getScore()+"");
 					bw.flush();
 					bw.close();

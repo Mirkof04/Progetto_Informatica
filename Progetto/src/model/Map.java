@@ -46,7 +46,7 @@ public class Map {
 			
 				if(map[i][j] == 1) {
 					//Griglia
-					g.setColor(new Color(166, 166, 166));
+					g.setColor(new Color(204, 204, 204));
 					g.fillRect(j*brickWidth+150, i*brickHeight+70, brickWidth, brickHeight);
 					
 					//Bordo griglia
