@@ -19,6 +19,7 @@ public class Gioco extends JPanel {
 	private Map map;
 	
 	public Gioco(Map map) {
+		setDoubleBuffered(true);
 		this.map = map;
 	}
 	
@@ -67,7 +68,9 @@ public class Gioco extends JPanel {
 		// Controllo vincita
 		if (map.getnBricks() == 0) {
 			map.setPlay(false);
-			g.setColor(Color.red);
+			g.setColor(new Color(255, 255, 255, 100));
+			g.fillRect(0, 0, 814, 700);
+			g.setColor(new Color(255, 0, 0, 200));
 			g.setFont(new Font("Calibri", Font.BOLD, 40));
 			g.drawString("Hai vinto!", 310, 300);
 			g.setFont(new Font("Calibri", Font.BOLD, 35));
@@ -76,8 +79,10 @@ public class Gioco extends JPanel {
 
 		// Controllo perdita
 		if (map.getBallY() > 680) {
-			map.setPlay(false);;
-			g.setColor(Color.red);
+			map.setPlay(false);
+			g.setColor(new Color(255, 255, 255, 100));
+			g.fillRect(0, 0, 814, 700);
+			g.setColor(new Color(255, 0, 0, 200));
 			g.setFont(new Font("Calibri", Font.BOLD, 40));
 			g.drawString("Hai perso!", 310, 300);
 			g.setFont(new Font("Calibri", Font.BOLD, 35));
