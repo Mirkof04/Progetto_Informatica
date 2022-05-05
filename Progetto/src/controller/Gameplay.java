@@ -255,7 +255,7 @@ public class Gameplay implements ActionListener, KeyListener {
 	public void updateRanking() {
 		
 		int pos = rankingPosition(map.getScore());
-
+		System.out.println("Posizione: "+pos);
 		if(pos != -1) {
 			
 			try {
@@ -282,9 +282,9 @@ public class Gameplay implements ActionListener, KeyListener {
 				}
 				
 				names.add(pos-1, nickName);
-				names.remove(5);
+				names.remove(10);
 				points.add(pos-1, map.getScore()+"");
-				points.remove(5);
+				points.remove(10);
 				
 				FileWriter fw = new FileWriter(file);
 				BufferedWriter bw = new BufferedWriter(fw);
@@ -338,7 +338,7 @@ public class Gameplay implements ActionListener, KeyListener {
 			e.printStackTrace();
 		}
 
-		if(cont < 5) {
+		if(cont < 10) {
 			return cont;
 		}
 		else {

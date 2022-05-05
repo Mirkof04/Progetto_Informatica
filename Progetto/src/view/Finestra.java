@@ -18,6 +18,7 @@ public class Finestra extends JFrame {
 		setFocusable(true);
 		add(game);
 		
+		//Aggiunta icona della finestra
 		ImageIcon appIcon = new ImageIcon("img/appIcon.png");
 		setIconImage(appIcon.getImage());
 		

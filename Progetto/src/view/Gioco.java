@@ -25,7 +25,7 @@ public class Gioco extends JPanel {
 	
 	public void paint(Graphics g) {
 		
-		// Sfondo
+		// Immagine di sfondo
 		try {
 			BufferedImage image = ImageIO.read(new File("img/backgroundGame.png"));
 			g.drawImage(image, 0, 0, null);
@@ -33,15 +33,16 @@ public class Gioco extends JPanel {
 			e.printStackTrace();
 		}
 
-		// Punteggio
+		// Disegno spazio punteggio
 		g.setColor(new Color(204, 204, 204));
 		g.fillRect(300, 2, 250, 28);
 
+		//Disegno stringa punteggio
 		g.setColor(Color.black);
 		g.setFont(new Font("Calibri", Font.BOLD, 30));
 		g.drawString("PUNTEGGIO: " + map.getScore(), 320, 25);
 
-		//Linea completamento
+		//Linea di completamento
 		g.setColor(Color.yellow);
 		g.fillRect(0, 0, ((814/(map.getCol()*map.getRow()))*(map.getCol()*map.getRow()-map.getnBricks())), 5);
 		

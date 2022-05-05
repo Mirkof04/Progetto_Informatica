@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -11,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -29,13 +29,21 @@ public class Menu extends JFrame{
 	private JLabel lblNickname;
 	private JButton btnRanking;
 	private JButton btnRecord;
+	private JLabel lblRecord;
+	private JLabel lblRanking;
 	
 	public Menu() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 495, 300);
+		setBounds(500, 400, 494, 300);
+		setTitle("Brick Breaker");
 		setResizable(false);
 		
+		//Aggunta icona della finestra
+		ImageIcon appIcon = new ImageIcon("img/appIcon.png");
+		setIconImage(appIcon.getImage());
+		
+		//Aggiunta immagine di sfondo
 		try {
 			Image backgroundImage = ImageIO.read(new File("img/backgroundMenu.png"));
 			contentPane = new JPanel(){
@@ -51,13 +59,13 @@ public class Menu extends JFrame{
 		getContentPane().add(contentPane);
 		contentPane.setLayout(null);
 		
-		ImageIcon appIcon = new ImageIcon("img/appIcon.png");
-		setIconImage(appIcon.getImage());
-		
-		//ImageIcon startIcon = new ImageIcon(img/);
-		btnNewGame = new JButton("New Game");
+		//Creazione e set del bottone per una nuova partita
+		ImageIcon playIcon = new ImageIcon("img/play.png");
+		btnNewGame = new JButton(playIcon);
+		btnNewGame.setContentAreaFilled(false);
+		btnNewGame.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		btnNewGame.setFont(new Font("Calibri", Font.BOLD, 13));
-		btnNewGame.setBounds(268, 93, 97, 35);
+		btnNewGame.setBounds(280, 85, 50, 50);
 		contentPane.add(btnNewGame);
 		
 		lblTitolo = new JLabel("Brick Breaker Game");
@@ -68,40 +76,47 @@ public class Menu extends JFrame{
 		contentPane.add(lblTitolo);
 		
 		textFieldNickname = new JTextField();
-		textFieldNickname.setBounds(117, 93, 132, 35);
+		textFieldNickname.setBounds(138, 93, 132, 35);
 		contentPane.add(textFieldNickname);
 		textFieldNickname.setColumns(10);
 		
 		lblNickname = new JLabel("Nickname");
 		lblNickname.setFont(new Font("Tahoma", Font.BOLD, 10));
 		lblNickname.setForeground(Color.WHITE);
-		lblNickname.setBounds(116, 71, 90, 24);
+		lblNickname.setBounds(138, 71, 90, 24);
 		contentPane.add(lblNickname);
 		
-		btnRanking = new JButton("Ranking");
+		//Creazione e set del bottone per la classifica
+		ImageIcon rankingIcon = new ImageIcon("img/podium.png");
+		btnRanking = new JButton(rankingIcon);
+		btnRanking.setContentAreaFilled(false);
+		btnRanking.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		btnRanking.setFont(new Font("Calibri", Font.BOLD, 13));
-		btnRanking.setBounds(175, 152, 105, 35);
+		btnRanking.setBounds(148, 168, 80, 40);
 		contentPane.add(btnRanking);
 		
-		btnRecord = new JButton("Record");
+		//Creazione e set del bottone per il record tra utenti 
+		ImageIcon recordIcon = new ImageIcon("img/record.png");
+		btnRecord = new JButton(recordIcon);
+		btnRecord.setContentAreaFilled(false);
+		btnRecord.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		btnRecord.setFont(new Font("Calibri", Font.BOLD, 13));
-		btnRecord.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnRecord.setBounds(175, 197, 105, 35);
+		btnRecord.setBounds(243, 166, 80, 40);
 		contentPane.add(btnRecord);
-	}
-	
-	public void paintComponent(Graphics g) {
-		Image backgroundImage = null;
-		try {
-			backgroundImage = ImageIO.read(new File("img/backgroundMenu.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		super.paintComponents(g);
-		g.drawImage(backgroundImage, 0, 0, this);
+		
+		lblRecord = new JLabel("RECORD");
+		lblRecord.setHorizontalAlignment(SwingConstants.CENTER);
+		lblRecord.setForeground(Color.WHITE);
+		lblRecord.setFont(new Font("Calibri", Font.BOLD, 13));
+		lblRecord.setBounds(242, 206, 81, 24);
+		contentPane.add(lblRecord);
+		
+		lblRanking = new JLabel("RANKING");
+		lblRanking.setHorizontalAlignment(SwingConstants.CENTER);
+		lblRanking.setForeground(Color.WHITE);
+		lblRanking.setFont(new Font("Calibri", Font.BOLD, 13));
+		lblRanking.setBounds(147, 206, 81, 24);
+		contentPane.add(lblRanking);
 	}
 
 	public JButton getBtnNewGame() {
