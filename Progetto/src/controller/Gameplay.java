@@ -33,7 +33,7 @@ public class Gameplay implements ActionListener, KeyListener {
 		gioco = new Finestra(map);
 		gioco.addKeyListener(this);
 		this.nickName = nickname;
-		timer = new Timer(10, this);
+		timer = new Timer(8, this);
 		timer.start();
 	}
 
@@ -47,62 +47,63 @@ public class Gameplay implements ActionListener, KeyListener {
 		}
 		
 		if (map.isPlay()) {
-			// Controllo scontro palla con giocatore
-			if (new Rectangle(map.getPaddleX(), 650, 30, 12).intersects(new Rectangle(map.getBallX(), map.getBallY(), map.getBall(), map.getBall()))) {
-				map.setBallYdir(-map.getBallYdir());
-				map.setBallXdir(map.getBallXdir() - 2);
-			}
-			else if(new Rectangle(map.getBallX(), map.getBallY(), 20, 20).intersects(new Rectangle(map.getPaddleX() + 70, 650, 30, 12))){
-				map.setBallYdir(-map.getBallYdir());
-				map.setBallXdir(map.getBallXdir() + 1);
-			}
-			else if(new Rectangle(map.getBallX(), map.getBallY(), 20, 20).intersects(new Rectangle(map.getPaddleX() + 30, 650, 40, 12))){
-				map.setBallYdir(-map.getBallYdir());
-			}
-
-			// Controllo scontro con cubetti
-			A: for (int i = 0; i < map.getMap().length; i++) {
-				for (int j = 0; j < map.getMap()[0].length; j++) {
-
-					if (map.getMap()[i][j] == 1) {
-
-						// Coordinate palla e cubetti
-						int brickWidth = map.getBrickWidth();
-						int brickHeight = map.getBrickHeight();
-						int brickX = j * brickWidth + 150;
-						int brickY = i * brickHeight + 70;
-
-						// Creazione rettangoli palla e cubetti
-						Rectangle brick = new Rectangle(brickX, brickY, brickWidth, brickHeight);
-						Rectangle ball = new Rectangle((int)map.getBallX(), (int)map.getBallY(), map.getBall(), map.getBall());
-						
-						if(brick.intersects(ball)) {
-							
-							map.setScore(map.getScore() + 10);
-							map.setnBricks(map.getnBricks() - 1);
-							map.setBrick(i, j, 0);
-							
-							//Scontro con lati cubetti
-							if(map.getBallX()+(map.getBall()-Math.abs(map.getBallXdir())) <= brick.x || map.getBallX()+Math.abs(map.getBallXdir()) >= brick.x+brick.width) {
-								map.setBallXdir(-map.getBallXdir());
-							} else {
-								map.setBallYdir(-map.getBallYdir());
-							}
-							break A;
-						}
-					}
-				}
-			}
-
+			
 			// Incremento posizione palla
 			map.setBallX(map.getBallX() + map.getBallXdir());
 			map.setBallY(map.getBallY() + map.getBallYdir());
 			
-			// Rimbalzi laterali palla
-			if (map.getBallX() < 26) {
-				map.setBallXdir(-map.getBallXdir());
+			if(map.getBallY() > 400) {
+				// Controllo scontro palla con giocatore
+				if (new Rectangle(map.getPaddleX(), 650, 30, 12).intersects(new Rectangle(map.getBallX(), map.getBallY(), map.getBall(), map.getBall()))) {
+					map.setBallYdir(-map.getBallYdir());
+					map.setBallXdir(map.getBallXdir() - 2);
+				}
+				else if(new Rectangle(map.getBallX(), map.getBallY(), 20, 20).intersects(new Rectangle(map.getPaddleX() + 70, 650, 30, 12))){
+					map.setBallYdir(-map.getBallYdir());
+					map.setBallXdir(map.getBallXdir() + 1);
+				}
+				else if(new Rectangle(map.getBallX(), map.getBallY(), 20, 20).intersects(new Rectangle(map.getPaddleX() + 30, 650, 40, 12))){
+					map.setBallYdir(-map.getBallYdir());
+				}
 			}
-			if (map.getBallX() > 750) {
+			else {
+				// Controllo scontro con cubetti
+				A: for (int i = 0; i < map.getMap().length; i++) {
+					for (int j = 0; j < map.getMap()[0].length; j++) {
+	
+						if (map.getMap()[i][j] == 1) {
+	
+							// Coordinate palla e cubetti
+							int brickWidth = map.getBrickWidth();
+							int brickHeight = map.getBrickHeight();
+							int brickX = j * brickWidth + 150;
+							int brickY = i * brickHeight + 70;
+	
+							// Creazione rettangoli palla e cubetti
+							Rectangle brick = new Rectangle(brickX, brickY, brickWidth, brickHeight);
+							Rectangle ball = new Rectangle(map.getBallX(), map.getBallY(), map.getBall(), map.getBall());
+							
+							if(brick.intersects(ball)) {
+								
+								map.setScore(map.getScore() + 10);
+								map.setnBricks(map.getnBricks() - 1);
+								map.setBrick(i, j, 0);
+								
+								//Scontro con lati cubetti
+								if(map.getBallX()+(map.getBall()-Math.abs(map.getBallXdir())) <= brick.x || map.getBallX()+Math.abs(map.getBallXdir()) >= brick.x+brick.width) {
+									map.setBallXdir(-map.getBallXdir());
+								} else {
+									map.setBallYdir(-map.getBallYdir());
+								}
+								break A;
+							}
+						}
+					}
+				}
+			}
+			
+			// Rimbalzi laterali palla
+			if (map.getBallX()<26 || map.getBallX() > 750) {
 				map.setBallXdir(-map.getBallXdir());
 			}
 			if (map.getBallY() < 31) {
@@ -227,24 +228,15 @@ public class Gameplay implements ActionListener, KeyListener {
 					bw.flush();
 					bw.close();
 				}
-				else if(bestScore(best) == -1) {
-					System.out.println("no record");
-				}
-				else {
-					System.out.println("record eguagliato");
-				}
 			}
-			else if(file.createNewFile()){
-				System.out.println("FILE "+path+" CREATO");
+			else {
+				file.createNewFile();
 				FileWriter fw = new FileWriter(file);
 				BufferedWriter bw = new BufferedWriter(fw);
 				bw.write(nickName+"\n");
 				bw.write(map.getScore()+"");
 				bw.flush();
 				bw.close(); 
-			}
-			else {
-				System.out.println("FILE "+path+" NON PUO ESSERE CREATO");
 			}
 			
 		} catch (IOException e1) {
@@ -255,7 +247,7 @@ public class Gameplay implements ActionListener, KeyListener {
 	public void updateRanking() {
 		
 		int pos = rankingPosition(map.getScore());
-		System.out.println("Posizione: "+pos);
+	
 		if(pos != -1) {
 			
 			try {

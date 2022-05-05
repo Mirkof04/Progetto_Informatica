@@ -19,20 +19,27 @@ public class Gioco extends JPanel {
 	private Map map;
 	
 	public Gioco(Map map) {
-		setDoubleBuffered(true);
 		this.map = map;
 	}
 	
 	public void paint(Graphics g) {
+		setDoubleBuffered(true);
 		
-		// Immagine di sfondo
+		//Colore di sfondo
+		g.setColor(Color.blue);
+		g.fillRect(25, 30, 750, 640);
+		
+		// Immagini di sfondo sui bordi
 		try {
-			BufferedImage image = ImageIO.read(new File("img/backgroundGame.png"));
-			g.drawImage(image, 0, 0, null);
+			BufferedImage background = ImageIO.read(new File("img/backgroundGame.png"));
+			g.drawImage(background, 0, 0, null);
+			g.drawImage(background, 774, 0, null);
+			BufferedImage backgroundTop = ImageIO.read(new File("img/backgroundGameTop.png"));
+			g.drawImage(backgroundTop, 25, 0, null);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		
 		// Disegno spazio punteggio
 		g.setColor(new Color(204, 204, 204));
 		g.fillRect(300, 2, 250, 28);
