@@ -16,24 +16,51 @@ import javax.swing.JOptionPane;
 import view.Menu;
 import view.Ranking;
 
+/**
+ * <h1>Controller principale</h1>
+ * <p>Gestisce il funzionamento del menù</p>
+ * 
+ * @author Alessandro Salamone
+ * @author Forcolin Mirko
+ * @author Florea Gabriel
+ * 
+ * @see ActionListener
+ * @see Menu
+ * @see Gameplay
+ */
 public class Controller implements ActionListener {
 
 	private Menu menu;
 	private Gameplay gameplay;
 	
+	/**
+	 * <p>Creazione classifica virtuale giocatori su file. 
+	 * 	  Chiamata metodo per aggiungere ActionListener.</p>
+	 * 
+	 * @param menu Menù di gioco che dovrà essere gestito
+	 */
 	public Controller(Menu menu) {
 		this.menu = menu;
 		createRanking();
 		addActionListener();
 	}
 	
-	//Aggiunta actionListener a tutti i bottoni
+	// Aggiunta actionListener a tutti i bottoni
+	/**
+	 * <p>Aggiunta ActionListener bottoni menù</p>
+	 */
 	public void addActionListener() {
 		menu.getBtnNewGame().addActionListener(this);
 		menu.getBtnRecord().addActionListener(this);
 		menu.getBtnRanking().addActionListener(this);
 	}
 	
+	/**
+	 * <p>Quando viene scatenato un evento lo gestisce</p>
+	 * 
+	 * @see ActionEvent
+	 * @see JOptionPane
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
@@ -73,6 +100,14 @@ public class Controller implements ActionListener {
 	}
 	
 	//Creazione file iniziale con la classifica virtuale
+	/**
+	 * 
+	 * <p>Crea la classifica virtuale su file</p>
+	 * 
+	 * @see File
+	 * @see FileWriter
+	 * @see BufferedWriter
+	 */
 	public void createRanking() {
 		try {
 			String path = "ranking.txt";
@@ -111,6 +146,18 @@ public class Controller implements ActionListener {
 	}
 	
 	//Creazione DefaultListModel da inserire nella JList
+	/**
+	 * <p>Crea modello DefaultListModel da caricare sulla JList</p>
+	 * 
+	 * @see JList
+	 * @see File
+	 * @see FileReader
+	 * @see BufferedReader
+	 * @see DefaultListModel
+	 * @throws FileNotFoundException
+	 * @throws IOException 
+	 * @return modello da aggiungere alla JList
+	 */
 	public DefaultListModel<String> printRanking() {
 		DefaultListModel<String> model = new DefaultListModel<>();
 		

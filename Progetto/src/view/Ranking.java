@@ -20,14 +20,35 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.ScrollPaneConstants;
 
+/**
+ * <h1>Finestra per classifica</h1>
+ * 
+ * @author Alessandro Salamone
+ * @author Forcolin Mirko
+ * @author Florea Gabriel
+ * 
+ * @see JPanel
+ * @see JList
+ * @see JScrollPane
+ */
 public class Ranking extends JFrame {
 
 	private JPanel contentPane;
 	private JScrollPane scrollPane;
 	private JList list;
 	
+	/**
+	 * <p>Settaggio finestra per classifica</p>
+	 * 
+	 * @see ImageIcon
+	 * @see DefaultListCellRenderer
+	 * @see Font
+	 * @see Color
+	 * @see EmptyBorder
+	 * @see BorderLayout
+	 */
 	public Ranking() {
-		setBounds(100, 100, 494, 300);
+		setBounds(0, 0, 494, 300);
 		setResizable(false);
 		
 		contentPane = new JPanel();

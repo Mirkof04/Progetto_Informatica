@@ -19,6 +19,19 @@ import javax.swing.Timer;
 import model.Map;
 import view.Finestra;
 
+/**
+ * <h1>Controller per la gestione del gameplay </h1>
+ * 
+ * @author Alessandro Salamone
+ * @author Forcolin Mirko
+ * @author Florea Gabriel
+ * 
+ * @see ActionListener
+ * @see KeyListener
+ * @see Timer
+ * @see Map
+ * @see Finestra
+ */
 public class Gameplay implements ActionListener, KeyListener {
 	
 	public Timer timer;
@@ -28,15 +41,33 @@ public class Gameplay implements ActionListener, KeyListener {
 	private boolean leftPressed = false;
 	private String nickName;
 	
+	/**
+	 * <p>Istanzia mappa.
+	 * Aggiunge KeyListener.
+	 * Setta timer che chiamerà in automatico l'actionPerformed ogni tot secondi</p>
+	 * 
+	 * @param nickname nome giocatore inserito nel menù
+	 * 
+	 * @see Timer
+	 */
 	public Gameplay(String nickname) {
 		map = new Map();
 		gioco = new Finestra(map);
 		gioco.addKeyListener(this);
 		this.nickName = nickname;
-		timer = new Timer(8, this);
+		timer = new Timer(6, this);
 		timer.start();
 	}
-
+ 
+	/**
+	 * <p>Gestione completa del gioco.
+	 * Controlla vittoria e sconfitta.
+	 * Controllo collisioni con mattoncini, lati mappa e giocatore.
+	 * Incremento movimenti pallina e giocatore</p>
+	 * 
+	 * @see ActionEvent
+	 * @see Rectangle
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
@@ -132,6 +163,11 @@ public class Gameplay implements ActionListener, KeyListener {
 	}
 
 	// Pressione tasti
+	/**
+	 * <p>Verifica quando un tasto viene premuto</p>
+	 * 
+	 * @see KeyEvent
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		
@@ -155,6 +191,11 @@ public class Gameplay implements ActionListener, KeyListener {
 	public void keyTyped(KeyEvent e) {
 	}
 
+	/**
+	 * <p>Verifica quando un tasto viene rilasciato</p>
+	 * 
+	 * @see KeyEvent
+	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
@@ -171,15 +212,26 @@ public class Gameplay implements ActionListener, KeyListener {
 	}
 
 	// Movimento destra giocatore
+	/**
+	 * <p>Muove il giocatore verso destra</p>
+	 */
 	public void moveRight() {
 		map.setPaddleX(map.getPaddleX() + 5);
 	}
 
 	// Movimento sinistra giocatore
+	/**
+	 * <p>Muove il giocatore verso sinistra</p>
+	 */
 	public void moveLeft() {
 		map.setPaddleX(map.getPaddleX() - 5);
 	}
 
+	/**
+	 * <p>Resetta tutte le impostazioni di gioco</p>
+	 * 
+	 * @see Math
+	 */
 	public void reset() {
 		map.reset();
 		map.setPaddleX(350);
@@ -193,6 +245,12 @@ public class Gameplay implements ActionListener, KeyListener {
 		timer.start();
 	}
 	
+	/**
+	 * <p>Calcolo direzione X di inizio gioco</p>
+	 * 
+	 * @param Degrees angolo random tra 30° e 70°
+	 * @return coseno dell'angolo che sarà la direzione X di inizio gioco
+	 */
 	public double dirX(double Degrees) {
 		double radianti = Math.toRadians(Degrees);
 		double coseno = - Math.cos(radianti)*5;
@@ -202,25 +260,39 @@ public class Gameplay implements ActionListener, KeyListener {
 		return coseno;
 	}
 	
+	/**
+	 * <p>Calcolo direzione Y di inizio gioco</p>
+	 * 
+	 * @param Degrees angolo random tra 30° e 70°
+	 * @return seno dell'angolo che sarà la direzione Y di inizio gioco
+	 */
 	public double dirY(double Degrees) {
 		double radianti = Math.toRadians(Degrees);
 		return Math.sin(radianti)*5;
 	}
 	
+	/**
+	 * <p>Aggiornamento del file con il record di sempre degli utenti su file</p>
+	 * 
+	 * @see File
+	 * @see FileReader
+	 * @see BufferedReader
+	 * @see FileWriter
+	 * @see BufferedWriter
+	 * @throws IOException
+	 */
 	public void updateRecord() {
 		try {
 			String path = "record.txt";
 			File file = new File(path);
 			
 			if(file.exists()) {
-				System.out.println("FILE "+path+" NON ESISTE");
 				FileReader fr = new FileReader(file);
 				BufferedReader br = new BufferedReader(fr);
 				br.readLine();
 				String best = br.readLine();
 				br.close();
 				if(bestScore(best) == 1) {
-					System.out.println("new record");
 					FileWriter fw = new FileWriter(file);
 					BufferedWriter bw = new BufferedWriter(fw);
 					bw.write(nickName+"\n"); 
@@ -244,6 +316,17 @@ public class Gameplay implements ActionListener, KeyListener {
 		}
 	}
 	
+	/**
+	 * <p>Aggiornamento della classifica virtuale su file</p>
+	 * 
+	 * @see ArrayList
+	 * @see File
+	 * @see FileReader
+	 * @see BufferedReader
+	 * @see FileWriter
+	 * @see BufferedWriter
+	 * @throws IOException
+	 */
 	public void updateRanking() {
 		
 		int pos = rankingPosition(map.getScore());
@@ -298,6 +381,12 @@ public class Gameplay implements ActionListener, KeyListener {
 		}
 	}
 	
+	/**
+	 * <p>Calcolo della posizione del giocatore nella classifica virtuale</p>
+	 * 
+	 * @param score punteggio raggiunto dal giocatore
+	 * @return posizione nella classifica virtuale del giocatore
+	 */
 	public int rankingPosition(int score) {
 		
 		int cont = 0;
@@ -338,6 +427,14 @@ public class Gameplay implements ActionListener, KeyListener {
 		}
 	}
 	
+	/**
+	 * <p>Controlla se il punteggio raggiunto è un nuovo record</p>
+	 *
+	 * @param score punteggio raggiunto dal giocatore
+	 * @return se il record è stato superato ritorna 1. Se è stato eguagliato ritorna 0. Sennò ritorna -1.
+	 * 
+	 * @see Integer
+	 */
 	public int bestScore(String score) {
 		int points = Integer.parseInt(score);
 		if(map.getScore() < points) {

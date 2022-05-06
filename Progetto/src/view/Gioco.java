@@ -14,14 +14,39 @@ import javax.swing.JProgressBar;
 
 import model.Map;
 
+/**
+ * <h1>JPanel della finestra di gioco che controlla la parte grafica</h1>
+ * 
+ * @author Alessandro Salamone
+ * @author Forcolin Mirko
+ * @author Florea Gabriel
+ *
+ * @see JPanel
+ * @see Map
+ */
 public class Gioco extends JPanel {
 	
 	private Map map;
 	
+	/**
+	 * <p>Assegnazione mappa di gioco</p>
+	 *
+	 * @param map mappa di gioco
+	 */
 	public Gioco(Map map) {
 		this.map = map;
 	}
-	
+	 
+	/**
+	 * <p>Disegna graficamente su JPanel ogni elemento del gioco</p>
+	 * 
+	 * @see BufferedImage
+	 * @see Graphics
+	 * @see Color
+	 * @see Font
+	 * @see ImageIO
+	 * @throws IOException
+	 */
 	public void paint(Graphics g) {
 		setDoubleBuffered(true);
 		

@@ -4,6 +4,15 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+/**
+ * <h1>Mappa di gioco</h1>
+ * 
+ * @author Alessandro Salamone
+ * @author Forcolin Mirko
+ * @author Florea Gabriel
+ * 
+ * @see Math
+ */
 public class Map {
 	
 	private static final int ROW = 5;
@@ -27,6 +36,9 @@ public class Map {
 	private int ballXdir = -(int) dirX(degrees);
 	private int ballYdir = (int) dirY(degrees);
 	
+	/**
+	 * <p>Setta la matrice della mappa</p>
+	 */
 	public Map() {
 		this.map = new int[ROW][COL];
 		for(int i=0;i<map.length;i++) {
@@ -39,6 +51,14 @@ public class Map {
 		this.brickHeight = 300/ROW;
 	}
 	
+	/**
+	 * <p>Disegna la griglia di mattoncini</p>
+	 * 
+	 * @param g Graphics 2D
+	 * @see Graphics2D
+	 * @see Color
+	 * @see BasicStroke
+	 */
 	public void draw(Graphics2D g) {
 		
 		for(int i=0;i<map.length;i++) {
@@ -59,10 +79,20 @@ public class Map {
 		}
 	}
 	
+	/**
+	 * <p>Set del valore di una cella della matrice</p>
+	 * 
+	 * @param ROW righe della matrice
+	 * @param COL colonne della matrice
+	 * @param value valore della cella della matrice
+	 */
 	public void setBrick(int ROW, int COL, int value) {
 		map[ROW][COL] = value;
 	}
 	
+	/**
+	 * <p>Resetta la matrice</p>
+	 */
 	public void reset() {
 		for(int i=0;i<map.length;i++) {
 			for(int j=0;j<map[0].length;j++) {
@@ -71,6 +101,12 @@ public class Map {
 		}
 	}
 	
+	/**
+	 * <p>Calcolo direzione X di inizio gioco</p>
+	 * 
+	 * @param Degrees angolo random tra 30° e 70°
+	 * @return coseno dell'angolo che sarà la direzione X di inizio gioco
+	 */
 	public double dirX(double gradi) {
 		double radianti = Math.toRadians(gradi);
 		double coseno = - Math.cos(radianti)*5;
@@ -80,6 +116,12 @@ public class Map {
 		return coseno;
 	}
 	
+	/**
+	 * <p>Calcolo direzione Y di inizio gioco</p>
+	 * 
+	 * @param Degrees angolo random tra 30° e 70°
+	 * @return seno dell'angolo che sarà la direzione Y di inizio gioco
+	 */
 	public double dirY(double gradi) {
 		double radianti = Math.toRadians(gradi);
 		return Math.sin(radianti)*5;

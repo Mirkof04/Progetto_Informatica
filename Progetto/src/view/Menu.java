@@ -20,6 +20,17 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+/**
+ * <h1>Finestra menù</h1>
+ * <p>Viene creata interamente la finestra iniziale con il menù di gioco tra cui varie opzioni</p>
+ * 
+ * @author Alessandro Salamone
+ * @author Forcolin Mirko
+ * @author Florea Gabriel
+ * 
+ * @see JFrame
+ */
+
 public class Menu extends JFrame{
 
 	private JPanel contentPane;
@@ -32,18 +43,29 @@ public class Menu extends JFrame{
 	private JLabel lblRecord;
 	private JLabel lblRanking;
 	
+	/**
+	 * <p>Istanzia tutti gli oggetti JavaSwing ed imposta altri parametri della finestra</p>
+	 * 
+	 * @see Image
+	 * @see ImageIcon
+	 * @see Graphics
+	 * @see Color
+	 * @see BorderFactory
+	 * @see Font
+	 * @throws IOException
+	 */
 	public Menu() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(500, 400, 494, 300);
+		setBounds(500, 250, 494, 300);
 		setTitle("Brick Breaker");
 		setResizable(false);
 		
-		//Aggunta icona della finestra
+		// Aggunta icona della finestra
 		ImageIcon appIcon = new ImageIcon("img/appIcon.png");
 		setIconImage(appIcon.getImage());
 		
-		//Aggiunta immagine di sfondo
+		// Aggiunta immagine di sfondo
 		try {
 			Image backgroundImage = ImageIO.read(new File("img/backgroundMenu.png"));
 			contentPane = new JPanel(){
@@ -59,7 +81,7 @@ public class Menu extends JFrame{
 		getContentPane().add(contentPane);
 		contentPane.setLayout(null);
 		
-		//Creazione e set del bottone per una nuova partita
+		// Bottone per una nuova partita
 		ImageIcon playIcon = new ImageIcon("img/play.png");
 		btnNewGame = new JButton(playIcon);
 		btnNewGame.setContentAreaFilled(false);
@@ -68,6 +90,7 @@ public class Menu extends JFrame{
 		btnNewGame.setBounds(280, 85, 50, 50);
 		contentPane.add(btnNewGame);
 		
+		// Label per il titolo
 		lblTitolo = new JLabel("Brick Breaker Game");
 		lblTitolo.setFont(new Font("Calibri", Font.BOLD, 30));
 		lblTitolo.setForeground(Color.WHITE);
@@ -75,18 +98,20 @@ public class Menu extends JFrame{
 		lblTitolo.setBounds(91, 10, 274, 58);
 		contentPane.add(lblTitolo);
 		
+		// TextField per inserimento nickName
 		textFieldNickname = new JTextField();
 		textFieldNickname.setBounds(138, 93, 132, 35);
 		contentPane.add(textFieldNickname);
 		textFieldNickname.setColumns(10);
 		
+		// Label nickName
 		lblNickname = new JLabel("Nickname");
 		lblNickname.setFont(new Font("Tahoma", Font.BOLD, 10));
 		lblNickname.setForeground(Color.WHITE);
 		lblNickname.setBounds(138, 71, 90, 24);
 		contentPane.add(lblNickname);
 		
-		//Creazione e set del bottone per la classifica
+		// Bottone per la classifica
 		ImageIcon rankingIcon = new ImageIcon("img/podium.png");
 		btnRanking = new JButton(rankingIcon);
 		btnRanking.setContentAreaFilled(false);
@@ -95,7 +120,7 @@ public class Menu extends JFrame{
 		btnRanking.setBounds(148, 168, 80, 40);
 		contentPane.add(btnRanking);
 		
-		//Creazione e set del bottone per il record tra utenti 
+		// Bottone per il record tra utenti 
 		ImageIcon recordIcon = new ImageIcon("img/record.png");
 		btnRecord = new JButton(recordIcon);
 		btnRecord.setContentAreaFilled(false);
@@ -104,6 +129,7 @@ public class Menu extends JFrame{
 		btnRecord.setBounds(243, 166, 80, 40);
 		contentPane.add(btnRecord);
 		
+		// Label record utenti registrati
 		lblRecord = new JLabel("RECORD");
 		lblRecord.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRecord.setForeground(Color.WHITE);
@@ -111,6 +137,7 @@ public class Menu extends JFrame{
 		lblRecord.setBounds(242, 206, 81, 24);
 		contentPane.add(lblRecord);
 		
+		// Label classifica
 		lblRanking = new JLabel("RANKING");
 		lblRanking.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRanking.setForeground(Color.WHITE);
