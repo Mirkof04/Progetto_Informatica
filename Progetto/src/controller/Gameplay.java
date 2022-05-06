@@ -55,7 +55,7 @@ public class Gameplay implements ActionListener, KeyListener {
 		gioco = new Finestra(map);
 		gioco.addKeyListener(this);
 		this.nickName = nickname;
-		timer = new Timer(6, this);
+		timer = new Timer(8, this);
 		timer.start();
 	}
  
